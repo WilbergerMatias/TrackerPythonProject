@@ -91,7 +91,71 @@ if __name__ == '__main__':
     times = []
     fps = video.get(cv2.CAP_PROP_FPS)
 
-    # -------------------- Loop principal -------------------- #
+    positions = []
+    times = []
+    fps = video.get(cv2.CAP_PROP_FPS)
+
+    object_points = []
+    clicked = False
+    frame_idx = 0
+
+    def click_object(event, x, y, flags, param):
+        global clicked
+        if event == cv2.EVENT_LBUTTONDOWN:
+            object_points.append((x, y))
+            clicked = True
+
+    while True:
+        ok, frame = video.read()
+        if not ok:
+            break
+
+        # Saltar frames que no sean múltiplos de 3
+        if frame_idx % 3 != 0:
+            frame_idx += 1
+            continue
+
+        clone = frame.copy()
+        cv2.namedWindow("Haz clic en el objeto", cv2.WINDOW_NORMAL)
+        cv2.resizeWindow("Haz clic en el objeto", 1280, 720)
+        clicked = False
+        cv2.setMouseCallback("Haz clic en el objeto", click_object)
+
+        # Mostrar zoom del último punto (opcional)
+        if object_points:
+            zx, zy = object_points[-1]
+            zoom = clone[max(zy-50, 0):zy+50, max(zx-50, 0):zx+50]
+            if zoom.size > 0:
+                zoom = cv2.resize(zoom, (200, 200))
+                cv2.imshow("Zoom", zoom)
+
+        while not clicked:
+            cv2.imshow("Haz clic en el objeto", clone)
+            key = cv2.waitKey(10) & 0xFF
+            if key == 27:  # ESC para salir
+                video.release()
+                cv2.destroyAllWindows()
+                exit()
+
+        x, y = object_points[-1]
+        cv2.circle(clone, (x, y), 5, (0, 255, 0), -1)
+        cv2.imshow("Haz clic en el objeto", clone)
+        cv2.waitKey(300)
+
+        # Convertir a metros
+        center_x_m = x * escala
+        center_y_m = y * escala
+
+        positions.append((center_x_m, center_y_m))
+        current_time = frame_idx / fps
+        times.append(current_time)
+
+        frame_idx += 1
+
+    video.release()
+    cv2.destroyAllWindows()
+    """ # -------------------- Loop principal -------------------- #
+
     while True:
         ok, frame = video.read()
         if not ok:
@@ -135,7 +199,7 @@ if __name__ == '__main__':
 
     video.release()
     cv2.destroyAllWindows()
-
+    """
     # -------------------- Cálculos de velocidad y aceleración -------------------- #
 
     positions = np.array(positions)
@@ -192,3 +256,5 @@ plt.grid(True)
 
 plt.tight_layout()
 plt.show()
+
+
