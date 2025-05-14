@@ -1,3 +1,4 @@
+"""eliminar la velocidad y a aceleracion de la componente y"""
 import numpy as np
 from scipy.signal import savgol_filter
 from scipy.ndimage import uniform_filter1d
