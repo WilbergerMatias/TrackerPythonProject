@@ -1,8 +1,25 @@
 import numpy as np
 from scipy.signal import savgol_filter
+from scipy.ndimage import uniform_filter1d
+
+def suavizar_datos(arr, metodo="combinado", reps=1):
+    res = arr.copy()
+    for i in range(reps):
+        print("Suavizado filtro: "+str(i))
+        if metodo == "media_movil":
+            res = uniform_filter1d(arr, size=5, mode='nearest')
+        elif metodo == "savgol":
+            res = savgol_filter(arr, window_length=7, polyorder=2, mode='nearest')
+        elif metodo == "combinado":
+            intermedio = uniform_filter1d(arr, size=5, mode='nearest')
+            res = savgol_filter(intermedio, window_length=7, polyorder=2, mode='nearest')
+    return res    
+            
+
 
 def derivar(datos, tiempos):
     """Derivada numérica centrada."""
+    
     datos = np.array(datos)
     tiempos = np.array(tiempos)
     derivada = np.zeros_like(datos)
@@ -32,10 +49,19 @@ def analizar_movimiento(positions, times):
     positions = np.array(positions)
     times = np.array(times)
     
+    print("Calculando datos de velocidad")
     velocities = derivar(positions, times)
-    velocities = suavizar_savgol(velocities, ventana=7, orden=3)
 
+    print("suavizando picos extremos")
+    velocities[:, 0] = suavizar_datos(velocities[:, 0],"combinado",reps = 1)
+    # velocities[:, 1] = suavizar_datos(velocities[:, 1],reps = 2)
+    
+    # soft_v = suavizar_savgol(velocities, ventana=7, orden=3)
+    print("Calculando datos aceleracion")
     accelerations = derivar(velocities, times)
-    accelerations = suavizar_savgol(accelerations, ventana=7, orden=3)
+    # accelerations = suavizar_savgol(accelerations, ventana=7, orden=3)
+    print("suavizando curva de aceleracion")
+    accelerations[:, 0] = suavizar_datos(accelerations[:, 0], reps = 4)
+    # accelerations[:, 1] = suavizar_datos(accelerations[:, 1], reps = 4)
     
     return velocities, accelerations

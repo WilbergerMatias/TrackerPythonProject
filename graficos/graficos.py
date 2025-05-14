@@ -15,13 +15,13 @@ def graficar_resultados(times, positions, velocities, accelerations):
     axs[0].legend()
 
     axs[1].plot(times, vel[0], label="Velocidad X (m/s)")
-    axs[1].plot(times, vel[1], label="Velocidad Y (m/s)")
+    # axs[1].plot(times, vel[1], label="Velocidad Y (m/s)")
     axs[1].set_title("Velocidad")
     axs[1].set_ylabel("Velocidad (m/s)")
     axs[1].legend()
 
     axs[2].plot(times, acc[0], label="Aceleración X (m/s²)")
-    axs[2].plot(times, acc[1], label="Aceleración Y (m/s²)")
+    # axs[2].plot(times, acc[1], label="Aceleración Y (m/s²)")
     axs[2].set_title("Aceleración")
     axs[2].set_ylabel("Aceleración (m/s²)")
     axs[2].legend()

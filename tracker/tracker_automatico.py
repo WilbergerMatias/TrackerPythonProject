@@ -6,6 +6,7 @@ def trackear(video, bbox, escala, fps):
 
     positions, times = [], []
     t = 0
+    print("Trackeando...")
     while True:
         ret, frame = video.read()
         if not ret:
