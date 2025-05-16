@@ -12,7 +12,8 @@ def main():
     frame, video, fps = abrir_video(ruta)
     escala = seleccionar_escala(frame)
     bbox = seleccionar_objeto(frame)
-    positions, times = trackear(video, bbox, escala, fps)
+    
+    positions, times = trackear(video, bbox, escala, fps, 3)
     velocities, accelerations = analizar_movimiento(positions, times)
     dibujar_velocidad(ruta, positions, times, escala)
     guardar_csv(times, positions, velocities, accelerations, "resultado.csv")
