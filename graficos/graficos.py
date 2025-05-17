@@ -1,34 +1,36 @@
-import matplotlib.pyplot as plt
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
 
 def graficar_resultados(times, positions, velocities, accelerations):
-    times = times
-    pos = list(zip(*positions))
-    vel = list(zip(*velocities))
+    pos = list(zip(positions))
+    vel = list(zip(velocities))
     acc = list(zip(*accelerations))
 
-    fig, axs = plt.subplots(3, 1, figsize=(10, 8))
+    fig = make_subplots(rows=3, cols=1, shared_xaxes=True,
+                        subplot_titles=("Movimiento", "Velocidad", "Aceleración"))
 
-    axs[0].plot(times, pos[0], label="Posición X (m)")
-    axs[0].plot(times, pos[1], label="Posición Y (m)")
-    axs[0].set_title("Movimiento")
-    axs[0].set_ylabel("Posición (m)")
-    axs[0].legend()
+    # Posición
+    fig.add_trace(go.Scatter(x=times, y=pos[0], mode='lines', name='Posición X (m)'), row=1, col=1)
+    fig.add_trace(go.Scatter(x=times, y=pos[1], mode='lines', name='Posición Y (m)'), row=1, col=1)
 
-    axs[1].plot(times, vel[0], label="Velocidad X (m/s)")
-    # axs[1].plot(times, vel[1], label="Velocidad Y (m/s)")
-    axs[1].set_title("Velocidad")
-    axs[1].set_ylabel("Velocidad (m/s)")
-    axs[1].legend()
+    # Velocidad
+    fig.add_trace(go.Scatter(x=times, y=vel[0], mode='lines', name='Velocidad X (m/s)'), row=2, col=1)
+    # fig.add_trace(go.Scatter(x=times, y=vel[1], mode='lines', name='Velocidad Y (m/s)'), row=2, col=1)
 
-    axs[2].plot(times, acc[0], label="Aceleración X (m/s²)")
-    # axs[2].plot(times, acc[1], label="Aceleración Y (m/s²)")
-    axs[2].set_title("Aceleración")
-    axs[2].set_ylabel("Aceleración (m/s²)")
-    axs[2].legend()
+    # Aceleración
+    fig.add_trace(go.Scatter(x=times, y=acc[0], mode='lines', name='Aceleración X (m/s²)'), row=3, col=1)
+    # fig.add_trace(go.Scatter(x=times, y=acc[1], mode='lines', name='Aceleración Y (m/s²)'), row=3, col=1)
 
-    for ax in axs:
-        ax.set_xlabel("Tiempo (s)")
-        ax.grid(True)
+    fig.update_layout(
+        height=800,
+        width=900,
+        title_text="Análisis del Movimiento",
+        showlegend=True
+    )
 
-    plt.tight_layout()
-    plt.show()
+    fig.update_xaxes(title_text="Tiempo (s)", row=3, col=1)
+    fig.update_yaxes(title_text="Posición (m)", row=1, col=1)
+    fig.update_yaxes(title_text="Velocidad (m/s)", row=2, col=1)
+    fig.update_yaxes(title_text="Aceleración (m/s²)", row=3, col=1)
+
+    fig.show()
