@@ -10,10 +10,10 @@ def suavizar_datos(arr, metodo="combinado", reps=1):
         if metodo == "media_movil":
             res = uniform_filter1d(arr, size=5, mode='nearest')
         elif metodo == "savgol":
-            res = savgol_filter(arr, window_length=7, polyorder=2, mode='nearest')
+            res = savgol_filter(arr, window_length=5, polyorder=2, mode='nearest')
         elif metodo == "combinado":
             intermedio = uniform_filter1d(arr, size=5, mode='nearest')
-            res = savgol_filter(intermedio, window_length=7, polyorder=2, mode='nearest')
+            res = savgol_filter(intermedio, window_length=5, polyorder=2, mode='nearest')
     return res    
             
 
@@ -34,7 +34,7 @@ def derivar(datos, tiempos):
     
     return derivada
 
-def suavizar_savgol(datos, ventana=7, orden=3):
+def suavizar_savgol(datos, ventana=5, orden=2):
     """Aplica filtro Savitzky-Golay a datos 2D (x, y)."""
     datos = np.array(datos)
     if len(datos) < ventana:
