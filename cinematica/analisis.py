@@ -49,6 +49,7 @@ def analizar_movimiento(positions, times):
     """Calcula velocidad y aceleración suavizadas a partir de posiciones y tiempos."""
     positions = np.array(positions)
     times = np.array(times)
+    positions[:,0] = suavizar_datos(positions[:,0], "combinado", reps = 1)
     
     print("Calculando datos de velocidad")
     velocities = derivar(positions, times)
@@ -62,7 +63,7 @@ def analizar_movimiento(positions, times):
     accelerations = derivar(velocities, times)
     # accelerations = suavizar_savgol(accelerations, ventana=7, orden=3)
     print("suavizando curva de aceleracion")
-    accelerations[:, 0] = suavizar_datos(accelerations[:, 0], reps = 4)
+    accelerations[:, 0] = suavizar_datos(accelerations[:, 0], "combinado", reps = 1)
     # accelerations[:, 1] = suavizar_datos(accelerations[:, 1], reps = 4)
     
     return velocities, accelerations

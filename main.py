@@ -4,8 +4,8 @@ from tracker.tracker_automatico import trackear
 from cinematica.analisis import analizar_movimiento
 from graficos.utils import guardar_csv, guardarTXT
 from graficos.graficos import graficar_resultados
-from dinamica.fuerzas import calcular_fuerza_x_promedio_por_tramo
-from dinamica.visualizar import mostrar_tabla_fuerza_x_por_tramo
+from Dinamica.fuerzas import calcular_fuerza_x_promedio_por_tramo
+from Dinamica.visualizar import mostrar_tabla_fuerza_x_por_tramo
 
 def main():
     ruta = seleccionar_video()
