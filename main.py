@@ -17,7 +17,7 @@ def main():
     guardar_csv(times, positions, velocities, accelerations, "resultado.csv")
     guardarTXT(times, positions, velocities, accelerations, "resultados/datos_ultimo_movimiento.txt")
     graficar_resultados(times, positions, velocities, accelerations)
-    mostrar_tabla_fuerza_x_por_tramo(calcular_fuerza_x_promedio_por_tramo(times, accelerations[:, 0]))
+    mostrar_tabla_fuerza_x_por_tramo(calcular_fuerza_x_promedio_por_tramo(times, accelerations[:]))
     
 if __name__ == "__main__":
     main()

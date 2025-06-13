@@ -17,8 +17,9 @@ def trackear(video, bbox, escala, fps, step = 1):
             success, newbox = tracker.update(frame)
             if success:
                 x, y, w, h = map(int, newbox)
-                cx, cy = x + w / 2, y + h / 2
-                positions.append((cx * escala, cy * escala))
+                # , y + h / 2
+                cx = x + w / 2 
+                positions.append((cx * escala))
                 times.append(t)
         t += 1 / fps
         frame_index += 1
