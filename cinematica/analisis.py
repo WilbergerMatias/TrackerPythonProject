@@ -15,19 +15,16 @@ def suavizar_datos(arr, metodo="combinado", reps=1):
             intermedio = uniform_filter1d(arr, size=5, mode='nearest')
             res = savgol_filter(intermedio, window_length=5, polyorder=2, mode='nearest')
     return res    
-            
-
 
 def derivar(datos, tiempos):
     """Derivada numérica centrada."""
-    
     datos = np.array(datos)
     tiempos = np.array(tiempos)
     derivada = np.zeros_like(datos)
     
     dt = np.diff(tiempos)
     # Derivada centrada para puntos intermedios
-    derivada[1:-1] = (datos[2:] - datos[:-2]) / (tiempos[2:] - tiempos[:-2])[:, None]
+    derivada[1:-1] = (datos[2:] - datos[:-2]) / (tiempos[2:] - tiempos[:-2])[:]
     # Extremos con diferencia progresiva
     derivada[0] = (datos[1] - datos[0]) / dt[0]
     derivada[-1] = (datos[-1] - datos[-2]) / dt[-1]
@@ -40,8 +37,8 @@ def suavizar_savgol(datos, ventana=5, orden=2):
     if len(datos) < ventana:
         return datos  # Evita error si hay pocos datos
     suavizados = np.array([
-        savgol_filter(datos[:, 0], ventana, orden),
-        savgol_filter(datos[:, 1], ventana, orden)
+        savgol_filter(datos, ventana, orden),
+        # savgol_filter(datos, ventana, orden)
     ]).T
     return suavizados
 
@@ -49,20 +46,18 @@ def analizar_movimiento(positions, times):
     """Calcula velocidad y aceleración suavizadas a partir de posiciones y tiempos."""
     positions = np.array(positions)
     times = np.array(times)
-    
+    positions = suavizar_datos(positions, "combinado", reps=1)
+
     print("Calculando datos de velocidad")
     velocities = derivar(positions, times)
 
-    print("suavizando picos extremos")
-    velocities[:, 0] = suavizar_datos(velocities[:, 0],"combinado",reps = 1)
-    # velocities[:, 1] = suavizar_datos(velocities[:, 1],reps = 2)
+    print("Suavizando picos extremos")
+    velocities = suavizar_datos(velocities, "combinado", reps=1)
     
-    # soft_v = suavizar_savgol(velocities, ventana=7, orden=3)
-    print("Calculando datos aceleracion")
+    print("Calculando datos aceleración")
     accelerations = derivar(velocities, times)
-    # accelerations = suavizar_savgol(accelerations, ventana=7, orden=3)
-    print("suavizando curva de aceleracion")
-    accelerations[:, 0] = suavizar_datos(accelerations[:, 0], reps = 4)
-    # accelerations[:, 1] = suavizar_datos(accelerations[:, 1], reps = 4)
+
+    print("Suavizando curva de aceleración")
+    accelerations = suavizar_datos(accelerations, "combinado", reps=1)
     
     return velocities, accelerations
