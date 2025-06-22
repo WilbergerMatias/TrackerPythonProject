@@ -1,0 +1,28 @@
+MASA = 102  # Sujeto + bici
+
+def calcular_momento_lineal_x_promedio_por_tramo(times, velocidades, n_tramos=10):
+    total = len(times)
+    tramo_len = total // n_tramos
+    resul = []
+
+    for i in range(n_tramos):
+        inicio = i * tramo_len
+        fin = (i + 1) * tramo_len if i < n_tramos - 1 else total
+
+        t_inicio = times[inicio]
+        t_fin = times[fin - 1]
+
+        velocidad_prom = sum(velocidades[inicio:fin]) / (fin - inicio)
+        promedio_momento_lineal = MASA * velocidad_prom
+        promedio_energia_cinetica=0.5*MASA*(velocidad_prom**2)
+
+        resul.append((  # Corrección aquí
+            i + 1,                 # Número de tramo
+            t_inicio,              # Tiempo inicial
+            t_fin,                 # Tiempo final
+            velocidad_prom,        # Velocidad promedio
+            promedio_momento_lineal,  #Momento lineal promedio
+            promedio_energia_cinetica #Energia cinetica promedio
+        ))
+
+    return resul
