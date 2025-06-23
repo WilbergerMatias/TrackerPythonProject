@@ -6,6 +6,8 @@ from graficos.utils import guardar_csv, guardarTXT
 from graficos.graficos import graficar_resultados
 from Dinamica.fuerzas import calcular_fuerza_x_promedio_por_tramo
 from Dinamica.visualizar import mostrar_tabla_fuerza_x_por_tramo
+from Calculo_momento_lineal_y_energia_cinetica import calcular_momento_lineal_x_promedio_por_tramo
+from cuadro_momento_lineal_energia_cinetica import generar_cuadro_resultados,mostrar_tabla_momento_energia_por_tramo
 
 def main():
     ruta = seleccionar_video()
@@ -18,6 +20,11 @@ def main():
     guardarTXT(times, positions, velocities, accelerations, "resultados/datos_ultimo_movimiento.txt")
     graficar_resultados(times, positions, velocities, accelerations)
     mostrar_tabla_fuerza_x_por_tramo(calcular_fuerza_x_promedio_por_tramo(times, accelerations[:]))
-    
+    resultados= calcular_momento_lineal_x_promedio_por_tramo(times, velocities, n_tramos=10)
+    generar_cuadro_resultados(resultados, nombre_archivo="resultados__momento_lin_y_energia.xlsx")
+    mostrar_tabla_momento_energia_por_tramo(resultados) 
+
+
+
 if __name__ == "__main__":
     main()
