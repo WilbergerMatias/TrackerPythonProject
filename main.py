@@ -8,6 +8,7 @@ from Dinamica.fuerzas import calcular_fuerza_x_promedio_por_tramo
 from Dinamica.visualizar import mostrar_tabla_fuerza_x_por_tramo
 from Calculo_momento_lineal_y_energia_cinetica import calcular_momento_lineal_x_promedio_por_tramo
 from cuadro_momento_lineal_energia_cinetica import generar_cuadro_resultados,mostrar_tabla_momento_energia_por_tramo
+from grafica_energia_cinetica import graf_energia_cinetica
 
 def main():
     ruta = seleccionar_video()
@@ -22,6 +23,7 @@ def main():
     mostrar_tabla_fuerza_x_por_tramo(calcular_fuerza_x_promedio_por_tramo(times, accelerations[:]))
     resultados= calcular_momento_lineal_x_promedio_por_tramo(times, velocities, n_tramos=10)
     generar_cuadro_resultados(resultados, nombre_archivo="resultados__momento_lin_y_energia.xlsx")
+    graf_energia_cinetica(resultados)
     mostrar_tabla_momento_energia_por_tramo(resultados) 
 
 
