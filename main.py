@@ -1,4 +1,4 @@
-from config.video_utils import abrir_video, seleccionar_objeto, seleccionar_video
+from config.video_utils import abrir_video, seleccionar_objeto, seleccionar_video, get_nombre_video
 from tracker.escala import seleccionar_escala
 from tracker.tracker_automatico import trackear
 from cinematica.analisis import analizar_movimiento
@@ -17,16 +17,14 @@ def main():
     bbox = seleccionar_objeto(frame)
     positions, times = trackear(video, bbox, escala, fps)
     velocities, accelerations = analizar_movimiento(positions, times)
-    guardar_csv(times, positions, velocities, accelerations, "resultado.csv")
-    guardarTXT(times, positions, velocities, accelerations, "resultados/datos_ultimo_movimiento.txt")
+    guardar_csv(times, positions, velocities, accelerations, f"resultados/cinematica/movimiento_{get_nombre_video()}.csv")
+    guardarTXT(times, positions, velocities, accelerations, f"resultados/cinematica/datos_{get_nombre_video()}.txt")
     graficar_resultados(times, positions, velocities, accelerations)
     mostrar_tabla_fuerza_x_por_tramo(calcular_fuerza_x_promedio_por_tramo(times, accelerations[:]))
     resultados= calcular_momento_lineal_x_promedio_por_tramo(times, velocities, n_tramos=10)
-    generar_cuadro_resultados(resultados, nombre_archivo="resultados__momento_lin_y_energia.xlsx")
+    generar_cuadro_resultados(resultados, nombre_archivo=f"{get_nombre_video()}.xlsx", carpeta = "resultados/movimiento/")
     graf_energia_cinetica(resultados)
     mostrar_tabla_momento_energia_por_tramo(resultados) 
-
-
 
 if __name__ == "__main__":
     main()

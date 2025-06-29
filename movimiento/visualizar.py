@@ -1,8 +1,9 @@
 import pandas as pd
+import os
 import tkinter as tk
 from tkinter import ttk
 
-def generar_cuadro_resultados(resultados, nombre_archivo="resultados_tramos_momento_lin_y_energia.xlsx"):
+def generar_cuadro_resultados(resultados, nombre_archivo="resultados_tramos_momento_lin_y_energia.xlsx", carpeta = "resultados"):
     """
     Convierte los resultados de los tramos en un DataFrame de pandas,
     redondea los valores a 4 decimales y los exporta a un archivo Excel.
@@ -27,8 +28,12 @@ def generar_cuadro_resultados(resultados, nombre_archivo="resultados_tramos_mome
     # Redondear a 4 decimales
     df = df.round(4)
 
+    full_path = os.path.join(carpeta, nombre_archivo)
+
+    os.makedirs(os.path.dirname(full_path), exist_ok=True)
+
     # Exportar a archivo Excel
-    df.to_excel(nombre_archivo, index=False)
+    df.to_excel(full_path, index=False)
 
     print(f"✅ Archivo Excel guardado como: {nombre_archivo}")
     return df
