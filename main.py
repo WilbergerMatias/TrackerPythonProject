@@ -6,9 +6,9 @@ from graficos.utils import guardar_csv, guardarTXT
 from graficos.graficos import graficar_resultados
 from Dinamica.fuerzas import calcular_fuerza_x_promedio_por_tramo
 from Dinamica.visualizar import mostrar_tabla_fuerza_x_por_tramo
-from Calculo_momento_lineal_y_energia_cinetica import calcular_momento_lineal_x_promedio_por_tramo
-from cuadro_momento_lineal_energia_cinetica import generar_cuadro_resultados,mostrar_tabla_momento_energia_por_tramo
-from grafica_energia_cinetica import graf_energia_cinetica
+from movimiento.analisis import calcular_momento_lineal_x_promedio_por_tramo
+from movimiento.visualizar import generar_cuadro_resultados,mostrar_tabla_momento_energia_por_tramo
+from movimiento.graficos import graf_energia_cinetica
 
 def main():
     ruta = seleccionar_video()

@@ -1,4 +1,6 @@
 import pandas as pd
+import tkinter as tk
+from tkinter import ttk
 
 def generar_cuadro_resultados(resultados, nombre_archivo="resultados_tramos_momento_lin_y_energia.xlsx"):
     """
@@ -31,10 +33,6 @@ def generar_cuadro_resultados(resultados, nombre_archivo="resultados_tramos_mome
     print(f"✅ Archivo Excel guardado como: {nombre_archivo}")
     return df
 
-
-import tkinter as tk
-from tkinter import ttk
-
 def mostrar_tabla_momento_energia_por_tramo(tramos):
     ventana = tk.Tk()
     ventana.title("Momento lineal y Energía cinética promedio por tramo")
@@ -50,12 +48,12 @@ def mostrar_tabla_momento_energia_por_tramo(tramos):
 
     for i, tramo in enumerate(tramos):
         tabla.insert("", "end", values=(
-            i + 1,
-            round(tramo[0], 4),
-            round(tramo[1], 4),
-            round(tramo[2], 4),
-            round(tramo[3], 4),
-            round(tramo[4], 4),
+            i + 1, 
+            round(tramo[0], 4), # Número de tramo
+            round(tramo[1], 4), # Tiempo inicial
+            round(tramo[2], 4), # Tiempo final
+            round(tramo[3], 4), # Velocidad promedio
+            round(tramo[4], 4), # Momento lineal promedio
         ))
 
     tabla.pack(expand=True, fill="both", padx=10, pady=10)
