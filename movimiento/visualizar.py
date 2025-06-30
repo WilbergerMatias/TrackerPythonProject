@@ -51,14 +51,14 @@ def mostrar_tabla_momento_energia_por_tramo(tramos):
         tabla.heading(col, text=col)
         tabla.column(col, anchor="center", width=150)
 
-    for i, tramo in enumerate(tramos):
+    for tramo in tramos:
         tabla.insert("", "end", values=(
-            i + 1, 
-            round(tramo[0], 4), # Número de tramo
-            round(tramo[1], 4), # Tiempo inicial
-            round(tramo[2], 4), # Tiempo final
-            round(tramo[3], 4), # Velocidad promedio
-            round(tramo[4], 4), # Momento lineal promedio
+            round(tramo[0], 4),         # número de tramo
+            round(tramo[1], 4),         # Tiempo inicial
+            round(tramo[2], 4),         # Tiempo final
+            round(float(tramo[3]), 4),  # Velocidad promedio
+            round(float(tramo[4]), 4),  # Momento lineal promedio
+            round(float(tramo[5]), 4),  # Energia cinetica promedio
         ))
 
     tabla.pack(expand=True, fill="both", padx=10, pady=10)

@@ -6,7 +6,7 @@ from graficos.utils import guardar_csv, guardarTXT
 from graficos.graficos import graficar_resultados
 from Dinamica.fuerzas import calcular_fuerza_x_promedio_por_tramo
 from Dinamica.visualizar import mostrar_tabla_fuerza_x_por_tramo
-from movimiento.analisis import calcular_momento_lineal_x_promedio_por_tramo
+from movimiento.analisis import calcular_momento_lineal_x_promedio_por_tramo, calcular_trabajo_pot_frenado, pedir_indice_tramo
 from movimiento.visualizar import generar_cuadro_resultados,mostrar_tabla_momento_energia_por_tramo
 from movimiento.graficos import graf_energia_cinetica
 
@@ -22,9 +22,11 @@ def main():
     graficar_resultados(times, positions, velocities, accelerations)
     mostrar_tabla_fuerza_x_por_tramo(calcular_fuerza_x_promedio_por_tramo(times, accelerations[:]))
     resultados= calcular_momento_lineal_x_promedio_por_tramo(times, velocities, n_tramos=10)
-    generar_cuadro_resultados(resultados, nombre_archivo=f"{get_nombre_video()}.xlsx", carpeta = "resultados/movimiento/")
     graf_energia_cinetica(resultados)
+    indice=pedir_indice_tramo()
+    calcular_trabajo_pot_frenado(resultados, indice)
     mostrar_tabla_momento_energia_por_tramo(resultados) 
+    generar_cuadro_resultados(resultados, nombre_archivo=f"{get_nombre_video()}.xlsx", carpeta = "resultados/movimiento/")
 
 if __name__ == "__main__":
     main()
