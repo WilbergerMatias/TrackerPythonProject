@@ -2,6 +2,7 @@ import csv
 import os
 
 def guardar_csv(times, positions, velocities, accelerations, filename):
+    os.makedirs(os.path.dirname(filename), exist_ok=True)
     with open(filename, mode='w', newline='') as file:
         writer = csv.writer(file)
         writer.writerow(["Tiempo", "PosX", "PosY", "VelX", "VelY", "AcelX", "AcelY"])

@@ -1,5 +1,10 @@
-GRAVEDAD = 9.81  # m/s²
-MASA = 102 #sujeto + bici
+# imports
+from config.constantes import Gravedad
+from config.constantes import Masa
+
+# constantes
+MASA = Masa()
+GRAVEDAD = Gravedad()
 
 def calcular_peso():
     """Devuelve el peso (en Newtons) del sistema sujeto+bici."""
